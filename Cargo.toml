@@ -1,0 +1,65 @@
+[package]
+name = "git-mirror"
+version = "0.1.0"
+edition = "2021"
+
+# Optimize the release binary for size — important for a small utility tool
+[profile.release]
+opt-level = "z"     # optimize for size (not speed)
+lto = true          # link-time optimization: removes dead code across crates
+strip = true        # strip debug symbols from binary
+
+[dependencies]
+# --- UI ---
+# eframe is the "batteries-included" wrapper around egui.
+# egui is an immediate-mode GUI: you describe what to draw every frame,
+# similar to how React re-renders on state changes — familiar for TS devs.
+eframe = "0.30"
+egui = "0.30"
+
+# --- Git ---
+# git2 uses libgit2 (a C library) under the hood.
+# KEY BENEFIT: does NOT require git to be installed on the user's system.
+# It reimplements the git protocol in C, bundled into your binary.
+git2 = "0.20"
+
+# --- Serialization ---
+# serde is Rust's de-facto serialization framework.
+# The `derive` feature enables #[derive(Serialize, Deserialize)] macros —
+# like decorators in TypeScript that auto-generate JSON.stringify/parse logic.
+serde = { version = "1", features = ["derive"] }
+
+# TOML is the config format (used by Cargo.toml itself).
+# Human-readable like JSON but with comments support. Great for config files.
+toml = "0.8"
+
+# --- File Operations ---
+# fs_extra gives us copy_with_progress and dir::copy which preserve
+# directory structure — the std::fs doesn't do this out of the box.
+fs_extra = "1.3"
+
+# --- Error Handling ---
+# anyhow provides a simple `Result<T>` alias where errors are dynamic.
+# In Rust, every error type must be explicit — anyhow lets you use `?`
+# operator everywhere without defining custom error types upfront.
+# Think of it as a typed catch-all for errors during prototyping.
+anyhow = "1"
+
+# --- Native File/Folder Picker ---
+# `rfd` (Rusty File Dialog) opens the OS-native folder/file picker dialog.
+# On macOS this is the same NSOpenPanel you see in any native app.
+# The `async-std` feature is NOT needed — we use the blocking API since
+# egui's update() runs on the main thread anyway.
+rfd = "0.15"
+
+# --- Config Directory ---
+# Finds the OS-appropriate config directory:
+#   macOS: ~/Library/Application Support/
+#   Windows: C:\Users\<user>\AppData\Roaming\
+#   Linux: ~/.config/
+dirs = "5"
+
+[dev-dependencies]
+# Used in tests to create isolated temporary directories that clean up automatically.
+# Like `fs.mkdtempSync` in Node, but automatically deleted when the variable drops.
+tempfile = "3"
