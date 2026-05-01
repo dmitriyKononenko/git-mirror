@@ -17,12 +17,6 @@ strip = true        # strip debug symbols from binary
 eframe = "0.30"
 egui = "0.30"
 
-# --- Git ---
-# git2 uses libgit2 (a C library) under the hood.
-# KEY BENEFIT: does NOT require git to be installed on the user's system.
-# It reimplements the git protocol in C, bundled into your binary.
-git2 = "0.20"
-
 # --- Serialization ---
 # serde is Rust's de-facto serialization framework.
 # The `derive` feature enables #[derive(Serialize, Deserialize)] macros —

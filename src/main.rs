@@ -4,20 +4,20 @@
 // main.rs only starts the window — nothing testable lives here.
 
 use eframe::egui;
-use git_mirror::app::GitMirrorApp;
+use git_mirror::app::CopyApp;
 
 fn main() -> eframe::Result<()> {
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
-            .with_title("Git Mirror")
+            .with_title("Copy Automation")
             .with_inner_size([660.0, 540.0])
             .with_min_inner_size([500.0, 400.0]),
         ..Default::default()
     };
 
     eframe::run_native(
-        "git-mirror",
+        "copy-automation",
         options,
-        Box::new(|cc| Ok(Box::new(GitMirrorApp::new(cc)))),
+        Box::new(|cc| Ok(Box::new(CopyApp::new(cc)))),
     )
 }
